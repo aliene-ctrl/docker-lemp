@@ -5,13 +5,22 @@ services:
       image: memcached:alpine
       container_name: phalconphp-memcached
 
+    mongo:
+      image: mongo
+      restart: always
+      volumes:
+        - ./app/:/application
+      command: mongod --bind_ip 0.0.0.0
+      ports:
+        - 27017:27017
+
     redis:
       image: redis:alpine
       container_name: phalconphp-redis
       ports:
         - 6379:6379
     
-    redis-browser:
+    redis_browser:
       image: birkof/redis-browser
       command: --url redis://redis:6379
       ports:
@@ -52,12 +61,13 @@ services:
       ports:
        - "8081:80"
 
-    php-fpm:
+    php_fpm:
       build: phpdocker/php-fpm
       container_name: phalconphp-php-fpm
       working_dir: /application
       volumes:
         - ./app/:/application
+        - ./../grademaker/testing/:/test/
         - ./app/var/cache/session/:/var/lib/php/session/
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
 
