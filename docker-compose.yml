@@ -69,4 +69,3 @@ services:
         - ./app/:/application
         - ./app/var/cache/session/:/var/lib/php/session/
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
-
